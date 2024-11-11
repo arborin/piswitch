@@ -1,0 +1,75 @@
+{% extends 'layout.html' %} 
+
+{% block title %}Dashboard{% endblock %} 
+
+
+{% block content %}
+
+<h4 class="mb-3">History</h4>
+
+<div class="col-md-12">
+    <form>
+        <div class="row">
+            <div class="col-sm-3">
+                <input type="text" name="username" class="form-control form-control-sm" id="username" value="" />
+            </div>
+
+            <div class="col-sm-3">
+                <input type="text" name="username" class="form-control form-control-sm" id="username" value=""  id="datepicker" width="276" />
+            </div>
+
+            <div class="col-sm-3">
+                <input type="text" name="username" class="form-control form-control-sm" id="username" value="" />
+            </div>
+            <div class="col-sm-3">
+                <button type="submit" class="btn btn-sm btn-warning">Filter</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Status</th>
+            <th scope="col">User</th>
+            <th scope="col">Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Outdoor Light</td>
+            <td>Turn On</td>
+            <td>Admin</td>
+            <td>2024-11-02 12:07:33</td>
+        </tr>
+        <tr>
+            <th scope="row">1</th>
+            <td>Outdoor Light</td>
+            <td>Turn On</td>
+            <td>Admin</td>
+            <td>2024-11-02 12:07:33</td>
+        </tr>
+        <tr>
+            <th scope="row">1</th>
+            <td>Outdoor Light</td>
+            <td>Turn On</td>
+            <td>Admin</td>
+            <td>2024-11-02 12:07:33</td>
+        </tr>
+        <tr>
+            <th scope="row">1</th>
+            <td>Outdoor Light</td>
+            <td>Turn On</td>
+            <td>Admin</td>
+            <td>2024-11-02 12:07:33</td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+{% endblock %}

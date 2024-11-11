@@ -3,5 +3,9 @@
     "tabWidth": 4,
     "semi": false,
     "singleQuote": true,
-    "printWidth": 600
+    "printWidth": 600,
+    "htmlWhitespaceSensitivity": "ignore",
+    "plugins": [
+        "prettier-plugin-go-template"
+    ]
 }

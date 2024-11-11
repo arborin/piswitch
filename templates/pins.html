@@ -1,0 +1,73 @@
+{% extends 'layout.html' %} 
+
+{% block title %}Dashboard{% endblock %} 
+
+
+{% block content %}
+
+<h4>Pin List</h4>
+
+<a href="{{ url_for('add_pin') }}" class="btn btn-warning btn-sm">Add Pin</a>
+
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">GPIO Number</th>
+            <th scope="col">Crated At</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Outdoor Light</td>
+            <td>23</td>
+            <td>2024-11-02 12:07:33</td>
+            <td>
+                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete-user">
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </button>
+                <a href="" class="btn btn-sm btn-warning">
+                    <i class="fa fa-edit" aria-hidden="true"></i>
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">1</th>
+            <td>Watering pump</td>
+            <td>24</td>
+            <td>2024-11-02 12:07:33</td>
+            <td>
+                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete-user">
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </button>
+                <a href="" class="btn btn-sm btn-warning">
+                    <i class="fa fa-edit" aria-hidden="true"></i>
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="delete-pin" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Do you want to delete pin?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger btn-sm">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
