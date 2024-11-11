@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="" />
+        <title>Home Page</title>
+        <!-- Bootstrap core CSS -->
+        <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+        <!-- Custom styles for this template -->
+        <link href="css/style.css" rel="stylesheet" />
+    </head>
+    <body>
+        <main>
+            <div class="container">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light rounded mt-3 color" aria-label="Eleventh navbar example">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="#">
+                            <img src="img/logo.png" alt="PiSwitch" height="30px" />
+                        </a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+
+                        <div class="collapse navbar-collapse" id="navbarsExample09">
+                            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="index.html">Dashboard</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Users</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Pins</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Scheduler</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Logs</a>
+                                </li>
+
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="dropdown09" data-bs-toggle="dropdown" aria-expanded="false">Admin</a>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdown09">
+                                        <li>
+                                            <a class="dropdown-item" href="#">Profile</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="#">Logout</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+
+                <div class="mt-3">
+                    <div class="bg-light p-5 rounded color">
+                        <div class="col-sm-8 mx-auto">
+                            <h4>Dashboard</h4>
+                            <table class="table mt-3">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Pin</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>Relay 01</td>
+                                        <td>23</td>
+                                        <td>
+                                            <img src="/img/bulb_off.png" height="60px" />
+                                        </td>
+                                        <td>
+                                            <img src="/img/switch-on.png" height="60px" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>Relay 02</td>
+                                        <td>24</td>
+                                        <td>
+                                            <img src="/img/bulb_on.png" height="60px" />
+                                        </td>
+                                        <td>
+                                            <img src="/img/switch-off.png" height="60px" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <img src="img/pinout.png" width="400px" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>
