@@ -15,39 +15,27 @@
             <th scope="col">#</th>
             <th scope="col">Name</th>
             <th scope="col">GPIO Number</th>
-            <th scope="col">Crated At</th>
+            <th scope="col">Created At</th>
             <th scope="col">Action</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Outdoor Light</td>
-            <td>23</td>
-            <td>2024-11-02 12:07:33</td>
-            <td>
-                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete-user">
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                </button>
-                <a href="" class="btn btn-sm btn-warning">
-                    <i class="fa fa-edit" aria-hidden="true"></i>
-                </a>
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">1</th>
-            <td>Watering pump</td>
-            <td>24</td>
-            <td>2024-11-02 12:07:33</td>
-            <td>
-                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete-user">
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                </button>
-                <a href="" class="btn btn-sm btn-warning">
-                    <i class="fa fa-edit" aria-hidden="true"></i>
-                </a>
-            </td>
-        </tr>
+        {% for pin in pins %}
+            <tr>
+                <th scope="row">{{ pin.id}}</th>
+                <td>{{ pin.name }}</td>
+                <td>{{ pin.gpio }}</td>
+                <td>{{ pin.crated_at }}</td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete-pin">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    </button>
+                    <a href="" class="btn btn-sm btn-warning">
+                        <i class="fa fa-edit" aria-hidden="true"></i>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
     </tbody>
 </table>
 

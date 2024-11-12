@@ -17,28 +17,28 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Relay 01</td>
-            <td>23</td>
-            <td>
-                <img src="{{ url_for('static', filename='img/bulb_off.png') }}" height="30px" />
-            </td>
-            <td>
-                <a href=""><img src="{{ url_for('static', filename='img/switch-on.png') }}" height="30px" /></a> 
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Relay 02</td>
-            <td>24</td>
-            <td>
-                <img src="{{ url_for('static', filename='img/bulb_on.png') }}" height="30px" />
-            </td>
-            <td>
-                <a href=""><img src="{{ url_for('static', filename='img/switch-off.png') }}" height="30" /></a>
-            </td>
-        </tr>
+        {% for pin in pins %}
+            <tr>
+                <th scope="row">{{ pin.id}}</th>
+                <td>{{ pin.name }}</td>
+                <td>{{ pin.gpio }}</td>
+                <td>
+                    {% if pin_status[pin.gpio] == 'off' %}
+                        <img src="{{ url_for('static', filename='img/bulb_off.png') }}" height="30px" title="Relay is off" alt="Off"/>
+                    {% elif pin_status[pin.gpio] == 'on' %}
+                        <img src="{{ url_for('static', filename='img/bulb_on.png') }}" height="30px" title="Relay is on" alt="On"/>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if pin_status[pin.gpio] == 'off' %}
+                        <a href="{{ url_for('relay', pin=pin.gpio, status='on') }}"><img src="{{ url_for('static', filename='img/switch-on.png') }}" height="30px" title="Click to on" alt="switch on"/></a> 
+                    {% elif pin_status[pin.gpio] == 'on' %}
+                        <a href="{{ url_for('relay', pin=pin.gpio, status='off') }}"><img src="{{ url_for('static', filename='img/switch-off.png') }}" height="30px" title="Click to off" alt="switch off"/></a> 
+                    {% endif %}
+                    
+                </td>
+            </tr>
+        {% endfor %}
     </tbody>
 </table>
 

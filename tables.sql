@@ -17,6 +17,8 @@ CREATE TABLE users (
 );
 
 
+
+
 CREATE TABLE logs (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     pin_number INTEGER,
@@ -27,3 +29,11 @@ CREATE TABLE logs (
     action VARCHAR(10),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
+
+>>> from app import db
+>>> from app import app
+>>>
+>>>
+>>> app.app_context().push()
+>>> db.create_all()
