@@ -1,6 +1,6 @@
 {% extends 'layout.html' %} 
 
-{% block title %}Dashboard{% endblock %} 
+{% block title %}Pins{% endblock %} 
 
 
 {% block content %}
@@ -27,7 +27,7 @@
                 <td>{{ pin.gpio }}</td>
                 <td>{{ pin.crated_at }}</td>
                 <td>
-                    <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete-pin">
+                    <button type="button" id="{{pin.id}}" onclick="getId(this)" class="btn btn-sm btn-danger del-btn" data-bs-toggle="modal" data-bs-target="#delete-pin">
                         <i class="fa fa-trash-o" aria-hidden="true"></i>
                     </button>
                     <a href="" class="btn btn-sm btn-warning">
@@ -52,7 +52,10 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger btn-sm">Delete</button>
+                <form method='post' action="{{url_for('del_pin')}}">
+                    <input type="hidden" id="del_id" name="del_id" value="">
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
             </div>
         </div>
     </div>

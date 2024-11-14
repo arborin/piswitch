@@ -83,6 +83,14 @@ body {
   box-shadow: -5px -5px 10px 0px rgba(255, 255, 255, 0.5), 5px 5px 10px 0px rgba(0, 0, 0, 0.3);
 }
 
+
+.db-card {
+  /* background-color: #a7b3d7; */
+  border: 1px solid #a7b3d7;
+  padding: 30px;
+  border-radius: .25rem !important;
+}
+
 @media (min-width: 768px) {
   .bd-placeholder-img-lg {
     font-size: 3.5rem;
