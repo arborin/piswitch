@@ -83,12 +83,25 @@ body {
   box-shadow: -5px -5px 10px 0px rgba(255, 255, 255, 0.5), 5px 5px 10px 0px rgba(0, 0, 0, 0.3);
 }
 
+.mt-50 {
+  margin-top: 50px;
+}
+
+.shadow {
+  /* background-color: #424e73; */
+  box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.3), 5px 5px 10px 0px rgba(0, 0, 0, 0.3) !important;
+}
+
 
 .db-card {
-  /* background-color: #a7b3d7; */
-  border: 1px solid #a7b3d7;
+  background-color: #586795;
   padding: 30px;
   border-radius: .25rem !important;
+
+}
+
+.page-item {
+  line-height: 1;
 }
 
 @media (min-width: 768px) {

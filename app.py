@@ -301,33 +301,26 @@ def del_pin():
 def logs():
     filter = {}
     page = request.args.get('page', 1, type=int)  # Get current page from request, default is 1
-    per_page = 5  # Number of items per page
+    per_page = 20  # Number of items per page
 
     date_from = request.args.get('date_from')
     filter['date_from'] = date_from
     date_to = request.args.get('date_to')
     filter['date_to'] = date_to
     gpio = request.args.get('gpio')
-    
-    
-    if date_from:
-        date_from = datetime.strptime(date_from, "%Y-%m-%d")
-    if date_to:
-        date_to = datetime.strptime(date_to, "%Y-%m-%d")
-    
-    # func.date(Logs.created_at) >= date_from,
-    # func.date(Logs.created_at) <= date_to
-    
+        
     logs = Logs.query
    
     if gpio:
         filter['gpio'] = int(gpio)
         logs = logs.filter_by(pin_number=gpio)
         
-    if date_from:
+    if date_from and date_from != 'None':
+        date_from = datetime.strptime(date_from, "%Y-%m-%d")
         logs = logs.filter(func.date(Logs.created_at) >= date_from)
     
-    if date_to:
+    if date_to and date_to != 'None':
+        date_to = datetime.strptime(date_to, "%Y-%m-%d")
         logs = logs.filter(func.date(Logs.created_at) <= date_to)
         
     
