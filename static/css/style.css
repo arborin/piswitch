@@ -87,6 +87,10 @@ body {
   margin-top: 50px;
 }
 
+.ml-10 {
+  margin-left: 10px;
+}
+
 .shadow {
   /* background-color: #424e73; */
   box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.3), 5px 5px 10px 0px rgba(0, 0, 0, 0.3) !important;

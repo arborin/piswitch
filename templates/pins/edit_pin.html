@@ -1,6 +1,6 @@
 {% extends 'layout.html' %} 
 
-{% block title %}Pin{% endblock %} 
+{% block title %}Edit Pin{% endblock %} 
 
 
 {% block content %}
@@ -11,7 +11,7 @@
     </div>
     <div class="col-md-6">
         <form method="post" action="{{ url_for('add_pin') }}">
-            <input type="text" name="id" class="form-control form-control-sm" id="id" value="{{ pin.id }}" />
+            <input type="hidden" name="id" class="form-control form-control-sm" id="id" value="{{ pin.id }}" />
             <div class="form-group row">
                 <label for="gpio" class="col-sm-4 col-form-label">GPIO Number</label>
                 <div class="col-sm-8">

@@ -210,20 +210,43 @@ def users():
 @check_admin
 def add_user():
     if request.method == "POST":
+        id = request.form.get('id')
         username = request.form.get('username')
         name = request.form.get('name')
-        password = generate_password_hash(request.form.get('password'))
+        password = request.form.get('password')
+        
+        if password:
+            password = generate_password_hash(password)
+        
         role = request.form.get('role')
         status = request.form.get('status')
         
-        user = Users(username=username, name=name, password=password, role=role, status=status)
-        db.session.add(user)
+        if id:
+            user = Users.query.filter_by(id=id).first()
+            user.username = username
+            user.name = name
+            user.password = password
+            user.role = role
+            user.status = status
+        else:
+            user = Users(username=username, name=name, password=password, role=role, status=status)
+            db.session.add(user)
+            
         db.session.commit()
         
         return redirect('/users')
     elif request.method == "GET":
         return render_template('users/add_user.html')
-      
+
+
+@app.route('/edit-user/<id>')
+@login_required
+@check_admin
+def edit_user(id):
+    user = Users.query.filter_by(id=id).first()
+    
+    return render_template('users/edit_user.html', user=user)
+    
         
 @app.route('/del-user', methods=['POST'])
 @check_admin
@@ -301,7 +324,7 @@ def del_pin():
 def logs():
     filter = {}
     page = request.args.get('page', 1, type=int)  # Get current page from request, default is 1
-    per_page = 20  # Number of items per page
+    per_page = 15  # Number of items per page
 
     date_from = request.args.get('date_from')
     filter['date_from'] = date_from
@@ -325,14 +348,7 @@ def logs():
         
     
     logs = logs.order_by(Logs.id.desc()).paginate(page=page, per_page=per_page)
-    # print(logs)
-    # filter = {
-    #     'gpio': gpio,
-    #     'date_from':  date_from,
-    #     'date_to': date_to,
-    # }
     
-    print(filter)
     pins = Pins.query.all()
     return render_template('logs/logs.html', logs=logs, pins=pins, filter=filter)
     
@@ -356,10 +372,33 @@ def relay(pin, status):
     return redirect("/")
 
 
-@app.route('/welcome/<name>')
-def welcome(name):
-    return f"Hi {name}"
+@app.route('/profile')
+@login_required
+def profile():    
+    return render_template('profile/profile.html')
     
+
+@app.route('/update-profile', methods=['post'])
+@login_required
+def update_profile():
+    id = session['user_id']
+    user = Users.query.filter_by(id=id).first()
+    
+    name = request.form.get('name')
+    password = request.form.get('password')
+        
+    if password:
+        password = generate_password_hash(password)
+        user.password = password
+    
+    if name:
+       user.name = name
+       session['name'] = name
+              
+    db.session.commit()
+        
+    return redirect('/')
+
     
 
 if __name__ == '__main__':

@@ -1,24 +1,25 @@
 {% extends 'layout.html' %} 
 
-{% block title %}Add user{% endblock %} 
+{% block title %}Edit user{% endblock %} 
 
 
 {% block content %}
 
-<h4 class="mb-3">Add User</h4>
+<h4 class="mb-3">Edit User</h4>
 
-<form method="post" action="{{ url_for('add_user') }}">
+<form method="post" action="{{ url_for('add_user') }}" autocomplete="off">
+    <input type="hidden" name="id" class="form-control form-control-sm" id="id" value="{{ user.id }}" />
     <div class="form-group row">
         <label for="username" class="col-sm-2 col-form-label">Username</label>
         <div class="col-sm-6">
-            <input type="text" name="username" class="form-control form-control-sm" id="username" value="" autocomplete="new_username" />
+            <input type="text" name="username" class="form-control form-control-sm" id="username" value="{{user.username}}" autocomplete="new_username" />
         </div>
     </div>
 
     <div class="form-group row">
         <label for="name" class="col-sm-2 col-form-label">Name</label>
         <div class="col-sm-6">
-            <input type="text" name="name" class="form-control form-control-sm" id="name" value="" autocomplete="new_name" />
+            <input type="text" name="name" class="form-control form-control-sm" id="name" value="{{ user.name }}" autocomplete="new_name" />
         </div>
     </div>
 
@@ -33,8 +34,8 @@
         <label for="role" class="col-sm-2 col-form-label">Role</label>
         <div class="col-sm-6">
             <select class="form-select form-select-sm" name="role" id="role">
-                <option value="admin">Admin</option>
-                <option value="user">User</option>
+                <option {% if user.role == 'admin'%} selected {% endif %} value="admin">Admin</option>
+                <option {% if user.role == 'user'%} selected {% endif %} value="user">User</option>
             </select>
         </div>
     </div>
@@ -43,8 +44,8 @@
         <label for="status" class="col-sm-2 col-form-label">Status</label>
         <div class="col-sm-6">
             <select class="form-select form-select-sm" name="status" id="status">
-                <option value="active">Active</option>
-                <option value="disable">Disable</option>
+                <option  {% if user.role == 'active'%} selected {% endif %} value="active">Active</option>
+                <option  {% if user.role == 'disable'%} selected {% endif %} value="disable">Disable</option>
             </select>
         </div>
     </div>
