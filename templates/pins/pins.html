@@ -30,7 +30,7 @@
                     <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete-pin">
                         <i class="fa fa-trash-o" aria-hidden="true"></i>
                     </button>
-                    <a href="" class="btn btn-sm btn-warning">
+                    <a href="{{ url_for('edit_pin', id=pin.id) }}" class="btn btn-sm btn-warning">
                         <i class="fa fa-edit" aria-hidden="true"></i>
                     </a>
                 </td>
