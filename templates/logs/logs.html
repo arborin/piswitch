@@ -1,6 +1,6 @@
 {% extends 'layout.html' %} 
 
-{% block title %}Dashboard{% endblock %} 
+{% block title %}Logs{% endblock %} 
 
 
 {% block content %}
@@ -8,18 +8,23 @@
 <h4 class="mb-3">History</h4>
 
 <div class="col-md-12">
-    <form>
+    <form action="{{url_for('logs')}}" method="get">
         <div class="row">
             <div class="col-sm-3">
-                <input type="text" name="username" class="form-control form-control-sm" id="username" value="" />
+                <select class="form-select form-select-sm" name="gpio" id="gpio">
+                    <option value=""></option>
+                    {% for pin in pins %}
+                        <option value="{{pin.gpio}}">{{pin.name}}</option>
+                    {% endfor %}
+                </select>
             </div>
 
             <div class="col-sm-3">
-                <input type="text" name="username" class="form-control form-control-sm" id="username" value=""  id="datepicker" width="276" />
+                <input type="date" name="date_from" class="form-control form-control-sm" id="date_from" value=""  id="datepicker" width="276" />
             </div>
 
             <div class="col-sm-3">
-                <input type="text" name="username" class="form-control form-control-sm" id="username" value="" />
+                <input type="date" name="date_to" class="form-control form-control-sm" id="date_to" value="" />
             </div>
             <div class="col-sm-3">
                 <button type="submit" class="btn btn-sm btn-warning">Filter</button>
@@ -32,41 +37,28 @@
     <thead>
         <tr>
             <th scope="col">#</th>
+            <th scope="col">GPIO</th>
+            <th scope="col">Pin Name</th>
             <th scope="col">Name</th>
-            <th scope="col">Status</th>
-            <th scope="col">User</th>
-            <th scope="col">Date</th>
+            <th scope="col">Username</th>
+            <th scope="col">Role</th>
+            <th scope="col">Action</th>
+            <th scope="col">Created At</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Outdoor Light</td>
-            <td>Turn On</td>
-            <td>Admin</td>
-            <td>2024-11-02 12:07:33</td>
-        </tr>
-        <tr>
-            <th scope="row">1</th>
-            <td>Outdoor Light</td>
-            <td>Turn On</td>
-            <td>Admin</td>
-            <td>2024-11-02 12:07:33</td>
-        </tr>
-        <tr>
-            <th scope="row">1</th>
-            <td>Outdoor Light</td>
-            <td>Turn On</td>
-            <td>Admin</td>
-            <td>2024-11-02 12:07:33</td>
-        </tr>
-        <tr>
-            <th scope="row">1</th>
-            <td>Outdoor Light</td>
-            <td>Turn On</td>
-            <td>Admin</td>
-            <td>2024-11-02 12:07:33</td>
-        </tr>
+        {% for log in logs%}
+            <tr>
+                <th scope="row">{{log.id}}</th>
+                <td>{{log.pin_number}}</td>
+                <td>{{log.pin_name}}</td>
+                <td>{{log.name}}</td>
+                <td>{{log.username}}</td>
+                <td>{{log.role}}</td>
+                <td>{{log.action}}</td>
+                <td>{{log.created_at.strftime("%Y-%m-%d %H:%M:%S")}}</td>
+            </tr>
+        {% endfor %}
     </tbody>
 </table>
 

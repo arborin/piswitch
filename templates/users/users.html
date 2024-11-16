@@ -1,6 +1,6 @@
 {% extends 'layout.html' %} 
 
-{% block title %}Dashboard{% endblock %} 
+{% block title %}Users{% endblock %} 
 
 
 {% block content %}
@@ -29,9 +29,9 @@
                 <td>{{ user.name }}</td>
                 <td>{{ user.status }}</td>
                 <td>{{ user.role }}</td>
-                <td>{{ user.created_at }}</td>
+                <td>{{ user.created_at.strftime("%Y-%m-%d %H:%M:%S") }}</td>
                 <td>
-                    <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete-user">
+                    <button type="button" id="{{user.id}}" onclick="getId(this)" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete-user">
                         <i class="fa fa-trash-o" aria-hidden="true"></i>
                     </button>
                     <a href="" class="btn btn-sm btn-warning">
@@ -57,7 +57,10 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger btn-sm">Delete</button>
+                <form method='post' action="{{url_for('del_user')}}">
+                    <input type="hidden" id="del_id" name="del_id" value="">
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
             </div>
         </div>
     </div>

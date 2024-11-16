@@ -30,16 +30,18 @@
                         <div class="collapse navbar-collapse" id="navbarsExample09">
                             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                                 <li class="nav-item">
-                                    <a class="nav-link {% if request.path == '/' %}active{% endif %}"" aria-current="page" href="{{ url_for('index') }}">Dashboard</a>
+                                    <a class="nav-link {% if request.path == url_for('index') %}active{% endif %}" aria-current="page" href="{{ url_for('index') }}">Dashboard</a>
                                 </li>
+                                {% if session['role'] == 'admin'%}
+                                    <li class="nav-item">
+                                        <a class="nav-link {% if request.path == url_for('users') %}active{% endif %}"  href="{{ url_for('users') }}">Users</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link {% if request.path == url_for('pins') %}active{% endif %}" href="{{ url_for('pins') }}">Pins</a>
+                                    </li>
+                                {%endif%}
                                 <li class="nav-item">
-                                    <a class="nav-link {% if request.path == '/users' %}active{% endif %}"" href="{{ url_for('users') }}">Users</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link {% if request.path == '/pins' %}active{% endif %}"" href="{{ url_for('pins') }}">Pins</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link {% if request.path == '/logs' %}active{% endif %}"" href="{{ url_for('logs') }}">Logs</a>
+                                    <a class="nav-link {% if request.path == url_for('logs') %}active{% endif %}" href="{{ url_for('logs') }}">Logs</a>
                                 </li>
 
                                 <li class="nav-item dropdown">
@@ -68,5 +70,13 @@
             </div>
         </main>
         <script src="{{ url_for('static', filename='assets/dist/js/bootstrap.bundle.min.js') }}"></script>
+        <script>
+            function getId(button) {
+                // Get the ID of the clicked button
+                let id = button.id;
+                console.log("Button ID is: " + id);
+                document.getElementById('del_id').value = id;
+            }
+        </script>
     </body>
 </html>

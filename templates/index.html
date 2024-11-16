@@ -5,7 +5,8 @@
 
 {% block content %}
 
-<h4>Dashboard</h4>
+<div class="db-card mb-3">
+<h4>Relay Pins</h4>
 <table class="table mt-3">
     <thead>
         <tr>
@@ -19,7 +20,7 @@
     <tbody>
         {% for pin in pins %}
             <tr>
-                <th scope="row">{{ pin.id}}</th>
+                <th scope="row">{{ loop.index}}</th>
                 <td>{{ pin.name }}</td>
                 <td>{{ pin.gpio }}</td>
                 <td>
@@ -35,11 +36,43 @@
                     {% elif pin_status[pin.gpio] == 'on' %}
                         <a href="{{ url_for('relay', pin=pin.gpio, status='off') }}"><img src="{{ url_for('static', filename='img/switch-off.png') }}" height="30px" title="Click to off" alt="switch off"/></a> 
                     {% endif %}
-                    
                 </td>
             </tr>
         {% endfor %}
     </tbody>
 </table>
+</div>
+
+<div class="db-card mt-3">
+<h4>Logs</h4>
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">GPIO</th>
+            <th scope="col">Pin Name</th>
+            <th scope="col">Name</th>
+            <th scope="col">Username</th>
+            <th scope="col">Role</th>
+            <th scope="col">Action</th>
+            <th scope="col">Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for log in logs%}
+            <tr>
+                <th scope="row">{{loop.index}}</th>
+                <td>{{log.pin_number}}</td>
+                <td>{{log.pin_name}}</td>
+                <td>{{log.name}}</td>
+                <td>{{log.username}}</td>
+                <td>{{log.role}}</td>
+                <td>{{log.action}}</td>
+                <td>{{log.created_at.strftime("%Y-%m-%d %H:%M:%S")}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
 
 {% endblock %}
