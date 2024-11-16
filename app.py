@@ -156,6 +156,7 @@ def login():
         # Remember which user has logged in
         session["user_id"] = user.id
         session["name"] = user.name
+        session["role"] = user.role
         session["username"] = user.username
         session["role"] = user.role
         
@@ -247,6 +248,7 @@ def pins():
     pins = Pins.query.all()
     return render_template('pins/pins.html', pins=pins)
 
+
 @app.route('/add-pin', methods=['GET', 'POST'])
 @login_required
 @check_admin
@@ -254,15 +256,30 @@ def add_pin():
     if request.method == "POST":
         name = request.form.get('name')
         gpio = request.form.get('gpio')
+        id = request.form.get('id')
         
-        pin = Pins(gpio=gpio, name=name)
-        db.session.add(pin)
+        if id:
+            pin = Pins.query.filter_by(id=id).first()
+            pin.gpio = gpio
+            pin.name = name
+        else:
+            pin = Pins(gpio=gpio, name=name)
+            db.session.add(pin)
+        
         db.session.commit()
         
         return redirect('/pins')
     elif request.method == "GET":
         return render_template('pins/add_pin.html')
         
+@app.route('/edit-pin/<id>')
+@login_required
+@check_admin
+def edit_pin(id):
+    pin = Pins.query.filter_by(id=id).first()
+    
+    return render_template('pins/edit_pin.html', pin=pin)
+    
 @app.route('/del-pin', methods=['POST'])
 @check_admin
 @login_required
@@ -351,9 +368,6 @@ def welcome(name):
     return f"Hi {name}"
     
     
-
-
-
 
 if __name__ == '__main__':
 
