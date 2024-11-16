@@ -2,6 +2,7 @@ import RPi.GPIO as GPIO
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
+from sqlalchemy import func
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
 from functools import wraps
@@ -281,9 +282,49 @@ def del_pin():
 @app.route('/logs')
 @login_required
 def logs():
-    logs = Logs.query.order_by(Logs.id.desc()).all()
+    filter = {}
+    page = request.args.get('page', 1, type=int)  # Get current page from request, default is 1
+    per_page = 5  # Number of items per page
+
+    date_from = request.args.get('date_from')
+    filter['date_from'] = date_from
+    date_to = request.args.get('date_to')
+    filter['date_to'] = date_to
+    gpio = request.args.get('gpio')
+    
+    
+    if date_from:
+        date_from = datetime.strptime(date_from, "%Y-%m-%d")
+    if date_to:
+        date_to = datetime.strptime(date_to, "%Y-%m-%d")
+    
+    # func.date(Logs.created_at) >= date_from,
+    # func.date(Logs.created_at) <= date_to
+    
+    logs = Logs.query
+   
+    if gpio:
+        filter['gpio'] = int(gpio)
+        logs = logs.filter_by(pin_number=gpio)
+        
+    if date_from:
+        logs = logs.filter(func.date(Logs.created_at) >= date_from)
+    
+    if date_to:
+        logs = logs.filter(func.date(Logs.created_at) <= date_to)
+        
+    
+    logs = logs.order_by(Logs.id.desc()).paginate(page=page, per_page=per_page)
+    # print(logs)
+    # filter = {
+    #     'gpio': gpio,
+    #     'date_from':  date_from,
+    #     'date_to': date_to,
+    # }
+    
+    print(filter)
     pins = Pins.query.all()
-    return render_template('logs/logs.html', logs=logs, pins=pins)
+    return render_template('logs/logs.html', logs=logs, pins=pins, filter=filter)
     
 
 
