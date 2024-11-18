@@ -1,49 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="" />
-        <title>{% block title %}{% endblock %} - PiSwitch</title>
-        <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/favicon.ico') }}" />
-        <!-- Bootstrap core CSS -->
-        <link href="{{ url_for('static', filename='assets/dist/css/bootstrap.min.css') }}" rel="stylesheet" />
+{% extends 'auth/layout.html' %} 
 
-        <!-- Custom styles for this template -->
-        <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" />
+{% block title %}Dashboard{% endblock %} 
 
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.css') }}">
+
+{% block content %}
+
+
+<div class="login-form">
+    <form autocomplete="off" method="post" action="{{ url_for('register') }}">
+        <div class="text-center mt-3 mb-3">
+            <a href="{{url_for('login')}}"><img src="{{ url_for('static', filename='img/logo_img.png') }}" height="100px"/></a>
+        </div>
         
-    </head>
-    <body>
-        <main>
-            <div class="container">
-                <nav class="navbar navbar-expand-lg navbar-light bg-light rounded mt-3 color" aria-label="Eleventh navbar example">
-                    <div class="container-fluid">
-                        <a class="navbar-brand" href="#">
-                            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="PiSwitch" height="30px" />
-                        </a>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-
-                        <div class="collapse navbar-collapse" id="navbarsExample09">
-                            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                                <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="{{ url_for('index') }}">Register</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-
-                <div class="mt-3">
-                    <div class="bg-light p-5 rounded color">
-                        <div class="col-sm-8 mx-auto">{% block content %}{% endblock %}</div>
-                    </div>
-                </div>
+        <div class="form-group">
+            <label for="username" class="col-sm-2 col-form-label">Username</label>
+            <div class="col-sm-12">
+                <input type="text" name="username" class="form-control form-control-sm" id="username" value=""  autocomplete="new-username"/>
             </div>
-        </main>
-        <script src="{{ url_for('static', filename='assets/dist/js/bootstrap.bundle.min.js') }}"></script>
-    </body>
-</html>
+        </div>
+        
+        <div class="form-group">
+            <label for="name" class="col-sm-2 col-form-label">Name</label>
+            <div class="col-sm-12">
+                <input type="text" name="name" class="form-control form-control-sm" id="name" value=""  autocomplete="new-name"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="password" class="col-sm-2 col-form-label">Password</label>
+            <div class="col-sm-12">
+                <input type="password" class="form-control form-control-sm" name="password" id="password" placeholder="Password" autocomplete="new-password" />
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="confirm_password" class="col-sm-12 col-form-label">Confirm Password</label>
+            <div class="col-sm-12">
+                <input type="password" class="form-control form-control-sm" name="confirm_password" id="confirm_password" placeholder="Confirm Password" autocomplete="new-confirm_password" />
+            </div>
+        </div>
+
+        <div class="form-group row mt-3">
+            <div class="col-sm-12 text-right">
+                <button type="submit" class="btn btn-sm btn-warning mt-3" style="width: 100%;">Register</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

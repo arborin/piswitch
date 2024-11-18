@@ -14,19 +14,7 @@ app = Flask(__name__)
 
 GPIO.setmode(GPIO.BCM)
 
-# Create a dictionary called pins to store the pin number, name, and pin state:
-# pins = {
-#    23 : {'name' : 'GPIO 23', 'state' : GPIO.LOW},
-#    24 : {'name' : 'GPIO 24', 'state' : GPIO.LOW}
-#    }
-
-# # Set each pin as an output and make it low:
-# for pin in pins:
-#    GPIO.setup(pin, GPIO.OUT)
-#    GPIO.output(pin, GPIO.LOW)
-
 app.secret_key =  "RANDOM STRING"#os.urandom(24)
-
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
 # initialize the app with the extension
 db = SQLAlchemy(app)
@@ -91,7 +79,6 @@ def setup_gpio():
     init_gpio()  # Initialize GPIO pins before handling any requests
 
 
-
 def login_required(f):
     """
     Decorate routes to require login.
@@ -104,6 +91,7 @@ def login_required(f):
         return f(*args, **kwargs)
 
     return decorated_function
+    
     
 def check_admin(f):
     """
@@ -118,6 +106,7 @@ def check_admin(f):
 
     return decorated_function
 
+
 def create_log(pin, status):
     gpio = Pins.query.filter_by(gpio=pin).first()
     
@@ -131,7 +120,6 @@ def create_log(pin, status):
     db.session.commit()
     
     
-
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """Log user in"""
@@ -146,11 +134,14 @@ def login():
         # Query database for username
 
         user = Users.query.filter_by(username=username).first()
-        print(user)
-        print(user.password)
+        
+        if not user or user.status == 'disable':
+            flash("User not activated!", "danger")
+            return render_template("auth/login.html")
+        
         # Check if the user exists and the password matches
-        if not user or not check_password_hash(user.password, password):
-            flash("Invalid username and/or password", "error")
+        if not check_password_hash(user.password, password):
+            flash("Invalid username and/or password", "danger")
             return render_template("auth/login.html")
 
         # Remember which user has logged in
@@ -165,6 +156,7 @@ def login():
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
+        
         return render_template("auth/login.html")
 
 
@@ -177,6 +169,40 @@ def logout():
 
     # Redirect user to login form
     return redirect("/")
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        name = request.form.get('name')
+        password = request.form.get('password')
+        confirm_password = request.form.get('confirm_password')
+        role = 'user'
+        status = 'disable'
+        
+        if password != '' and confirm_password != '' and password == confirm_password:
+            password = generate_password_hash(password)
+        else:
+            flash('Check your password!', 'danger')
+            return redirect('/login')
+        
+        
+        # CHECK FIRST USER
+        users = Users.query.all()
+        if not users:
+            role = 'admin'
+            status = 'active'
+        
+        user = Users(username=username, name=name, password=password, role=role, status=status)
+        db.session.add(user)
+        db.session.commit()
+        flash('User Created!', 'success')
+        return redirect('/login')
+
+    if request.method == 'GET':
+        return render_template('auth/register.html')
+        
+
 
 @app.route('/')
 @login_required
@@ -195,8 +221,8 @@ def index():
             pin_status[gpio_pin] = 'off'
     
     logs = Logs.query.order_by(Logs.id.desc()).limit(5).all()
-
-    return render_template('index.html', pins=pins, pin_status=pin_status, logs=logs)
+    print(">>>>> ", len(logs))
+    return render_template('index.html', pins=pins, pin_status=pin_status, logs=logs, log_len=int(len(logs)))
     
 @app.route('/users')
 @login_required
@@ -211,29 +237,31 @@ def users():
 def add_user():
     if request.method == "POST":
         id = request.form.get('id')
-        username = request.form.get('username')
-        name = request.form.get('name')
-        password = request.form.get('password')
-        
-        if password:
-            password = generate_password_hash(password)
-        
+        username = request.form.get('username').strip()
+        name = request.form.get('name').strip()
+        password = request.form.get('password').strip()
         role = request.form.get('role')
         status = request.form.get('status')
         
         if id:
             user = Users.query.filter_by(id=id).first()
             user.username = username
-            user.name = name
-            user.password = password
+            user.name = name 
             user.role = role
             user.status = status
-        else:
-            user = Users(username=username, name=name, password=password, role=role, status=status)
-            db.session.add(user)
+            if password != '':
+                user.password = generate_password_hash(password)
             
-        db.session.commit()
+        else:
+            if password != '':
+                flash("Password is empty!", "danger")
+                return redirect('/users')
+            else:
+                user = Users(username=username, name=name, password=password, role=role, status=status)
+                db.session.add(user)
         
+        db.session.commit()
+        flash("Operation successfully done", "success")
         return redirect('/users')
     elif request.method == "GET":
         return render_template('users/add_user.html')
@@ -254,16 +282,25 @@ def edit_user(id):
 def del_user():
     if request.method == "POST":
         id = request.form.get('del_id')
-        
         record = Users.query.get(id)
-        if record and record.username != 'admin':
+        
+        print(id, session['user_id'])
+        
+        
+        if int(id) == int(session['user_id']):
+            # Can not delete your user
+            flash("You can not delete your user", "danger")   
+            return redirect('/users')
+            
+        elif record:
         # Check if the record exists
             db.session.delete(record)
             db.session.commit()
+            flash("Operation successfully done", "success")
         
-    return redirect('/users')
-
-
+        return redirect('/users')
+            
+            
 @app.route('/pins')
 @login_required
 @check_admin
@@ -290,7 +327,7 @@ def add_pin():
             db.session.add(pin)
         
         db.session.commit()
-        
+        flash("Operation successfully done", "success")
         return redirect('/pins')
     elif request.method == "GET":
         return render_template('pins/add_pin.html')
@@ -315,7 +352,8 @@ def del_pin():
         if record:
             db.session.delete(record)
             db.session.commit()
-        
+    
+        flash("Operation successfully done", "success")    
     return redirect('/pins')
    
 

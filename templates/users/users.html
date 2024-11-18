@@ -9,6 +9,18 @@
 
 <a href="{{ url_for('add_user') }}" class="btn btn-warning btn-sm">Add User</a>
 
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="alert-container mt-3 mb-3">
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
 <table class="table mt-3">
     <thead>
         <tr>

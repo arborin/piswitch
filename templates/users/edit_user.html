@@ -26,7 +26,7 @@
     <div class="form-group row">
         <label for="password" class="col-sm-2 col-form-label">Password</label>
         <div class="col-sm-6">
-            <input type="password" class="form-control form-control-sm" name="password" id="password" placeholder="Password" autocomplete="new_password"/>
+            <input type="password" value="" class="form-control form-control-sm" name="password" id="password" placeholder="Password" autocomplete="new_password"/>
         </div>
     </div>
 
@@ -44,15 +44,15 @@
         <label for="status" class="col-sm-2 col-form-label">Status</label>
         <div class="col-sm-6">
             <select class="form-select form-select-sm" name="status" id="status">
-                <option  {% if user.role == 'active'%} selected {% endif %} value="active">Active</option>
-                <option  {% if user.role == 'disable'%} selected {% endif %} value="disable">Disable</option>
+                <option  {% if user.status == 'active'%} selected {% endif %} value="active">Active</option>
+                <option  {% if user.status == 'disable'%} selected {% endif %} value="disable">Disable</option>
             </select>
         </div>
     </div>
 
     <div class="form-group row">
         <div class="col-sm-8 text-right">
-            <a href="users.html" class="btn btn-sm btn-primary">Back</a>
+            <a href="{{ url_for('users')}}" class="btn btn-sm btn-primary">Back</a>
             <button type="submit" class="btn btn-sm btn-warning">Save</button>
         </div>
     </div>
