@@ -12,7 +12,7 @@
         <div class="row">
             <div class="col-sm-3">
                 <select class="form-select form-select-sm" name="gpio" id="gpio">
-                    <option value=""></option>
+                    <option value="">Select Pin</option>
                     {% for pin in pins %}
                         <option  value="{{pin.gpio}}" {% if filter['gpio'] == pin.gpio %} selected {% endif %}>{{pin.gpio}} - {{pin.name}}</option>
                     {% endfor %}
