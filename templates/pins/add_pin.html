@@ -8,7 +8,7 @@
 <div class="row">
     <div class="col-md-6  mb-3">
         <h4>Add Pin</h4>
-        <form method="post" action="{{ url_for('add_pin') }}">
+        <form method="post" action="{{ url_for('add_pin') }}" autocomplete="off">
             
             <div class="form-group row">
                 <label for="gpio" class="col-sm-4 col-form-label">GPIO Number</label>
@@ -21,7 +21,7 @@
             <div class="form-group row">
                 <label for="name" class="col-sm-4 col-form-label">Name</label>
                 <div class="col-sm-8">
-                    <input type="text" name="name" class="form-control form-control-sm" id="name" value="" />
+                    <input type="text" name="name" class="form-control form-control-sm" id="name" value="" autocomplete="new_pin_name" />
                 </div>
             </div>
 

@@ -69,7 +69,6 @@ def init_gpio():
 
     # Set up each pin from the database as an output and set it to LOW
     for pin in pins:
-        print(pin.gpio)
         GPIO.setup(int(pin.gpio), GPIO.OUT)
         GPIO.output(int(pin.gpio), GPIO.LOW)
 
@@ -213,7 +212,6 @@ def index():
         GPIO.setup(pin.gpio, GPIO.OUT)
         gpio_pin = pin.gpio
         pin_state = GPIO.input(gpio_pin)
-        print(pin_state)
         # Check if the pin is HIGH or LOW
         if pin_state == GPIO.HIGH:
             pin_status[gpio_pin] = 'on'
@@ -221,7 +219,6 @@ def index():
             pin_status[gpio_pin] = 'off'
     
     logs = Logs.query.order_by(Logs.id.desc()).limit(5).all()
-    print(">>>>> ", len(logs))
     return render_template('index.html', pins=pins, pin_status=pin_status, logs=logs, log_len=int(len(logs)))
     
 @app.route('/users')
@@ -253,10 +250,11 @@ def add_user():
                 user.password = generate_password_hash(password)
             
         else:
-            if password != '':
+            if password == '':
                 flash("Password is empty!", "danger")
                 return redirect('/users')
             else:
+                password = generate_password_hash(password)
                 user = Users(username=username, name=name, password=password, role=role, status=status)
                 db.session.add(user)
         
@@ -282,10 +280,7 @@ def edit_user(id):
 def del_user():
     if request.method == "POST":
         id = request.form.get('del_id')
-        record = Users.query.get(id)
-        
-        print(id, session['user_id'])
-        
+        record = Users.query.get(id)      
         
         if int(id) == int(session['user_id']):
             # Can not delete your user
@@ -436,8 +431,6 @@ def update_profile():
     db.session.commit()
         
     return redirect('/')
-
-    
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False, host='0.0.0.0', port=8080)
